@@ -23,7 +23,19 @@ def init(day):
     __test__ = {'solve': solve}
 
 def generate(day):
-    open(f"day{day:0>2}.txt", "w").close()
+    if day <= datetime.datetime.today().day:
+        import requests
+        with open('session.cookie') as f:
+            cookie = f.readline()
+        page = requests.get(f'https://adventofcode.com/2022/day/{day}/input', cookies={'session': cookie})
+        if page.status_code != 200:
+            print(page.status_code, page.reason)
+            open(f"day{day:0>2}.txt", "w").close()
+        else:
+            with open(f"day{day:0>2}.txt", "w") as f:
+                f.write(page.text)
+    else:
+        open(f"day{day:0>2}.txt", "w").close()
     with open(f"day{day:0>2}.py", "w") as f:
         f.write(TEMPLATE_FILE.format(day = day))
 
