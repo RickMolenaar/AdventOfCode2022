@@ -3,13 +3,13 @@ import doctest
 import importlib
 
 TEMPLATE_FILE = """def parse_input():
-    with open('day01.txt') as f:
+    with open('day{day:0>2}.txt') as f:
         s = f.readlines()
     return s
 
-def solve():
+def solve(inp):
     \"\"\"
-    >>> solve()
+    >>> solve('', debug=False)
     None
     \"\"\"
     return None
@@ -25,7 +25,7 @@ def init(day):
 def generate(day):
     open(f"day{day:0>2}.txt", "w").close()
     with open(f"day{day:0>2}.py", "w") as f:
-        f.write(TEMPLATE_FILE)
+        f.write(TEMPLATE_FILE.format(day = day))
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
@@ -41,4 +41,4 @@ if __name__=='__main__':
     else:
         init(args.day)
         if doctest.testmod().failed == 0:
-            print(solve(parse_input()))
+            print(solve(parse_input(), True))
