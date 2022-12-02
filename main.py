@@ -44,6 +44,7 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--day', help="Which day to run")
     parser.add_argument('-g', '--generate', action='store_true',  help="Whether todays files should be generated")
+    parser.add_argument('--debug', action='store_true')
     args = parser.parse_args()
     if args.day is None:
         import datetime
@@ -54,4 +55,4 @@ if __name__=='__main__':
     else:
         init(args.day)
         if doctest.testmod().failed == 0:
-            print(solve(parse_input(), True))
+            print(solve(parse_input(), args.debug))
