@@ -11,12 +11,10 @@ def solve(s, debug=False):
     12
     """
     tot = 0
-    for i, match in enumerate(s.split('\n')):
+    for match in enumerate(s.split('\n')):
         theirs, result = match.split()
         result = ord(result) - ord('X')
         result_score = result * 3
-        choice_score = (ord(theirs) + result - ord('A') - 1) % 3 + 1
-        # if debug:
-        #     print(match, result_score, choice_score)
+        choice_score = (ord(theirs) + result - 1 - ord('A')) % 3 + 1
         tot += result_score + choice_score
     return tot

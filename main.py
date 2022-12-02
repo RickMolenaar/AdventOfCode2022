@@ -7,9 +7,10 @@ TEMPLATE_FILE = """def parse_input():
         s = f.readlines()
     return s
 
-def solve(inp):
+def solve(inp, debug=False):
     \"\"\"
-    >>> solve('', debug=False)
+    >>> solve('''
+    ... ''')
     None
     \"\"\"
     return None
