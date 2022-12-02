@@ -11,7 +11,7 @@ def solve(s, debug=False):
     12
     """
     tot = 0
-    for match in enumerate(s.split('\n')):
+    for match in s.split('\n'):
         theirs, result = match.split()
         result = ord(result) - ord('X')
         result_score = result * 3
