@@ -4,7 +4,7 @@ import importlib
 
 TEMPLATE_FILE = """def parse_input():
     with open('day{day:0>2}.txt') as f:
-        s = f.readlines()
+        s = ''.join(f.readlines())
     return s
 
 def solve(inp, debug=False):
@@ -54,5 +54,5 @@ if __name__=='__main__':
         generate(args.day)
     else:
         init(args.day)
-        if doctest.testmod().failed == 0:
+        if doctest.testmod(verbose = args.debug).failed == 0:
             print(solve(parse_input(), args.debug))
