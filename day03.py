@@ -4,6 +4,12 @@ def parse_input():
         s = ''.join(f.readlines())
     return s
 
+def find_badge(group: list[str]):
+    for c in group[0]:
+        if c in group[1] and c in group[2]:
+            return string.ascii_letters.index(c) + 1
+    raise ValueError('No badge found')
+
 def solve(inp, debug=False):
     """
     >>> solve('''vJrwpWtwJgWrhcsFMMfFFhFp
@@ -12,8 +18,18 @@ def solve(inp, debug=False):
     ... wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
     ... ttgJtRGJQctTZtZT
     ... CrZsJsPPZsGzwwsLwLmpwMDw''')
-    157
+    70
     """
+    tot = 0
+    group = []
+    for line in inp.split('\n'):
+        group.append(line.rstrip())
+        if len(group) == 3:
+            tot += find_badge(group)
+            group = []
+    return tot
+
+    # PART 1
     tot = 0
     for line in inp.split('\n'):
         line = line.strip()
