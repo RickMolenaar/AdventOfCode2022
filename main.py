@@ -13,6 +13,8 @@ def solve(inp, debug=False):
     ... ''')
     None
     \"\"\"
+    for line in inp.rstrip().split('\n'):
+        pass
     return None
 """
 
