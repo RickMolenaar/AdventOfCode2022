@@ -7,22 +7,29 @@ TEMPLATE_FILE = """def parse_input():
         s = ''.join(f.readlines())
     return s
 
+def parse_example():
+    with open('day{day:0>2}example.txt') as f:
+        s = ''.join(f.readlines())
+    return s
+
+def format_input(inp):
+    return inp
+
 def solve(inp, debug=False):
     \"\"\"
-    >>> solve('''
-    ... ''')
+    >>> solve(parse_example())
     None
     \"\"\"
-    for line in inp.rstrip().split('\n'):
-        pass
+    inp = format_input(inp)
     return None
 """
 
 def init(day):
-    global __test__, solve, parse_input
+    global __test__, solve, parse_input, parse_example
     module = importlib.import_module(f"day{day:0>2}")
     solve = module.solve
     parse_input = module.parse_input
+    parse_example = module.parse_example
     __test__ = {'solve': solve}
 
 def generate(day):
@@ -39,6 +46,8 @@ def generate(day):
                 f.write(page.text)
     else:
         open(f"day{day:0>2}.txt", "w").close()
+    open(f"day{day:0>2}example.txt", "w").close()
+
     with open(f"day{day:0>2}.py", "w") as f:
         f.write(TEMPLATE_FILE.format(day = day))
 

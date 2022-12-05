@@ -32,7 +32,7 @@ def format_input(inp):
 
 def solve(inp, debug=False):
     """
-    >>> solve(parse_example(), True)
+    >>> solve(parse_example())
     'MCD'
     """
     stacks, moves = format_input(inp)
