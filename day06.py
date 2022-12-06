@@ -11,11 +11,12 @@ def parse_example():
 def format_input(inp):
     return inp
 
-def solve(inp, debug=False):
+def solve(s, debug=False):
     """
     >>> solve(parse_example())
     29
     """
-    for i in range(len(inp)):
-        if len(set(inp[i:i+14])) == 14:
-            return i + 14
+    # for i in range(len(inp)):
+    #     if len(set(inp[i:i+14])) == 14:
+    #         return i + 14
+    return[i for i in range(len(s))if len(set(s[i:i+14]))==14][0]+14
