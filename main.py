@@ -2,15 +2,13 @@ import argparse
 import doctest
 import importlib
 
-TEMPLATE_FILE = """def parse_input():
-    with open('day{day:0>2}.txt') as f:
-        s = ''.join(f.readlines())
-    return s
+TEMPLATE_FILE = """def parse_input(file = 'day{day:0>2}.txt'):
+    with open(file) as f:
+        s = map(lambda l: l.rstrip(), f.readlines())
+    return list(s)
 
 def parse_example():
-    with open('day{day:0>2}example.txt') as f:
-        s = ''.join(f.readlines())
-    return s
+    return parse_input('day{day:0>2}example.txt')
 
 def format_input(inp):
     return inp
