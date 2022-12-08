@@ -20,13 +20,14 @@ def parse_arguments():
 
 
 class Watcher:
-    def __init__(self, filename, function, *additional_files, interval = 1, verbose = False):
+    def __init__(self, filename, function, *additional_files, interval = 1, verbose = False, **additional_args):
         self.filename = filename
         self.to_watch = (filename,) + additional_files
         self.function = function
         self.last_modified_times = [0] * len(self.to_watch)
         self.interval = 1
         self.verbose = verbose
+        self.additional_args = additional_args
         self.previously_found = False
         try:
             self.module = import_module(filename[:-3])
@@ -70,7 +71,7 @@ class Watcher:
             return
         self.previously_found = True
         try:
-            result = func()
+            result = func(**self.additional_args)
         except KeyboardInterrupt:
             raise
         except Exception:

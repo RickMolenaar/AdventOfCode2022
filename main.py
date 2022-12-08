@@ -22,6 +22,9 @@ def solve(inp, debug=False):
     \"\"\"
     inp = format_input(inp)
     return None
+
+def main(debug = False):
+    return str(solve(parse_example(), debug)) + '\\n' + str(solve(parse_input(), debug))
 """
 
 def init(day):
@@ -67,5 +70,5 @@ if __name__=='__main__':
         # init(args.day)
         # if doctest.testmod(verbose = args.debug).failed == 0:
         #     print(solve(parse_input(), args.debug))
-        watcher = pywatch.Watcher('day01new.py', 'main')
+        watcher = pywatch.Watcher(f'day{args.day:0>2}.py', 'main')
         watcher.watch()
