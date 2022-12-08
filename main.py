@@ -2,6 +2,8 @@ import argparse
 import doctest
 import importlib
 
+import pywatch
+
 TEMPLATE_FILE = """def parse_input(file = 'day{day:0>2}.txt'):
     with open(file) as f:
         s = map(lambda l: l.rstrip(), f.readlines())
@@ -62,6 +64,8 @@ if __name__=='__main__':
     if args.generate:
         generate(args.day)
     else:
-        init(args.day)
-        if doctest.testmod(verbose = args.debug).failed == 0:
-            print(solve(parse_input(), args.debug))
+        # init(args.day)
+        # if doctest.testmod(verbose = args.debug).failed == 0:
+        #     print(solve(parse_input(), args.debug))
+        watcher = pywatch.Watcher('day01new.py', 'main')
+        watcher.watch()
