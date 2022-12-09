@@ -70,5 +70,6 @@ if __name__=='__main__':
         # init(args.day)
         # if doctest.testmod(verbose = args.debug).failed == 0:
         #     print(solve(parse_input(), args.debug))
-        watcher = pywatch.Watcher(f'day{args.day:0>2}.py', 'main')
+        day = f'{args.day:0>2}'
+        watcher = pywatch.Watcher(f'day{day}.py', 'main', f'day{day}example.txt', f'day{day}.txt')
         watcher.watch()
