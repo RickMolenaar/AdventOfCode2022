@@ -50,7 +50,7 @@ def generate(day: int) -> None:
             open(f"day{day:0>2}.txt", "w").close()
             open(f"day{day:0>2}example.txt", "w").close()
         else:
-            problem_page = BeautifulSoup(problem_page, )
+            problem_page = BeautifulSoup(problem_page.content, features='html.parser')
             part1 = problem_page.find(name='article')
             example_candidates = find_example(part1)
             if len(example_candidates) == 1:
