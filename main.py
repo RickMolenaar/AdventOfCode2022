@@ -23,7 +23,7 @@ def solve(inp, debug=False):
     return None
 
 def main(debug = False):
-    return str(solve(parse_example(), debug)) + '\\n' + str(solve(parse_input(), debug))
+    return str(solve(parse_example(), True)) + '\\n' + str(solve(parse_input(), debug))
 """
 
 def init(day: int) -> None:
