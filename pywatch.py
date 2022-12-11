@@ -35,6 +35,7 @@ class Watcher:
             self.module = None    # Will be caught in run()
 
     def watch(self):
+        print(f"Watching function {self.function}, files: {self.to_watch}")
         try:
             while True:
                 modified = False
