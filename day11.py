@@ -3,6 +3,7 @@ class Monkey:
         self.items = items
         self.worry_operation = worry_operation
         to_divide, true_monkey, false_monkey = test
+        self.to_divide = to_divide
         self.test = lambda worry: true_monkey if worry % to_divide == 0 else false_monkey
         self.troop = troop
         self.inspect_count = 0
@@ -12,7 +13,8 @@ class Monkey:
         for old in self.items:
             self.inspect_count += 1
             new_worry = eval(self.worry_operation)
-            new_worry = new_worry // 3
+            # new_worry = new_worry // 3
+            new_worry = new_worry % self.max_mod
             new_monkey = self.test(new_worry)
             if self.troop[new_monkey] == self:
                 print(old, self.worry_operation, new_worry, self.test(new_worry))
@@ -55,11 +57,16 @@ def format_input(inp) -> list[Monkey]:
     
     test = (to_divide, true_monkey, false_monkey)
     troop.append(Monkey(items, worry_operation, test, troop))
+    max_mod = 1
+    for monkey in troop:
+        max_mod *= monkey.to_divide
+    for monkey in troop:
+        monkey.max_mod = max_mod
     return troop
 
 def solve(inp, debug=False):
     troop = format_input(inp)
-    for round in range(20):
+    for round in range(10000):
         for monkey in troop:
             # if debug:
             #     print(round, monkey.items)
