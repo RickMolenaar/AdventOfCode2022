@@ -15,7 +15,6 @@ def format_input(inp):
         if 'S' in row:
             start = (i, row.index('S'))
             heightmap[-1][start[1]] = ord('a')
-            distance_map[-1][start[1]] = 0
         if 'E' in row:
             end = (i, row.index('E'))
             heightmap[-1][end[1]] = ord('z')
@@ -30,14 +29,15 @@ def get_neighbors(point, max_size):
     return neighbors
 
 def solve(inp, debug=False):
-    heightmap, distance_map, start, end = format_input(inp)
+    heightmap, distance_map, _, start = format_input(inp)
+    distance_map[start[0]][start[1]] = 0
     size = (len(heightmap), len(heightmap[0]))
     to_update = {start}
     max_iters = 500
     iters = 0
     while to_update and iters < max_iters:
-        if iters % 100 == 0:
-            print(iters, len(to_update))
+        # if iters % 100 == 0:
+        #     print(iters, len(to_update))
         # if iters < 5:
         #     print([(point, distance_map[point[0]][point[1]]) for point in to_update])
         iters += 1
@@ -46,7 +46,7 @@ def solve(inp, debug=False):
             distance = distance_map[point[0]][point[1]]
             for neighbor in get_neighbors(point, size):
                 n_height = heightmap[neighbor[0]][neighbor[1]]
-                if n_height > height + 1:
+                if n_height < height - 1:
                     continue
                 n_distance = distance_map[neighbor[0]][neighbor[1]]
                 if distance + 1 < n_distance:
@@ -55,9 +55,16 @@ def solve(inp, debug=False):
             to_update.remove(point)
     if iters >= max_iters:
         raise ValueError
-    if debug:
-        print(distance_map[end[0]][end[1]])
-    return distance_map[end[0]][end[1]]
+    # if debug:
+    #     print(distance_map[end[0]][end[1]])
+    # return distance_map[end[0]][end[1]]
+    min_distance = 9999
+    for row, heights in enumerate(heightmap):
+        for col, height in enumerate(heights):
+            if height != ord('a'):
+                continue
+            min_distance = min(distance_map[row][col], min_distance)
+    return min_distance
 
 def main(debug = False):
     return str(solve(parse_example(), True)) + '\n' + str(solve(parse_input(), debug))
