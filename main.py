@@ -2,6 +2,7 @@ import argparse
 import datetime
 import importlib
 import requests
+import time
 
 from bs4 import BeautifulSoup, Tag
 
@@ -110,17 +111,25 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--day', help="Which day to run")
     parser.add_argument('-g', '--generate', action='store_true',  help="Whether todays files should be generated")
+    parser.add_argument('-t', '--time', action='store_true')
     parser.add_argument('--debug', action='store_true')
     args = parser.parse_args()
     if args.day is None:
-        args.day = datetime.datetime.today().day
+        day = datetime.datetime.today().day
+    else:
+        day = int(args.day)
     
     if args.generate:
-        generate(int(args.day))
+        generate(day)
+    elif args.time:
+        module = importlib.import_module(f"day{day:0>2}")
+        t0 = time.time()
+        print(module.main())
+        print(f'Done in {time.time() - t0} ms')
     else:
         # init(args.day)
         # if doctest.testmod(verbose = args.debug).failed == 0:
         #     print(solve(parse_input(), args.debug))
-        day = f'{args.day:0>2}'
+        day = f'{day:0>2}'
         watcher = pywatch.Watcher(f'day{day}.py', 'main', f'day{day}example.txt', f'day{day}.txt')
         watcher.watch()
