@@ -27,15 +27,10 @@ def main(debug = False):
     return str(solve(parse_example(), True)) + '\\n' + str(solve(parse_input(), debug))
 """
 
-def init(day: int) -> None:
-    global __test__, solve, parse_input, parse_example
-    module = importlib.import_module(f"day{day:0>2}")
-    solve = module.solve
-    parse_input = module.parse_input
-    parse_example = module.parse_example
-    __test__ = {'solve': solve}
-
 def generate(day: int) -> None:
+    with open(f"day{day:0>2}.py", "w") as f:
+        f.write(TEMPLATE_FILE.format(day = day))
+        
     if day <= datetime.datetime.today().day:
         input_page = get_page(f"/2022/day/{day}/input")
         if input_page.status_code != 200:
@@ -71,8 +66,6 @@ def generate(day: int) -> None:
         open(f"day{day:0>2}.txt", "w").close()
         open(f"day{day:0>2}example.txt", "w").close()
 
-    with open(f"day{day:0>2}.py", "w") as f:
-        f.write(TEMPLATE_FILE.format(day = day))
 
 def get_page(location: str) -> requests.Response:
     with open('session.cookie') as f:
@@ -125,11 +118,8 @@ if __name__=='__main__':
         module = importlib.import_module(f"day{day:0>2}")
         t0 = time.time()
         print(module.main())
-        print(f'Done in {time.time() - t0} ms')
+        print(f'Done in {time.time() - t0} s')
     else:
-        # init(args.day)
-        # if doctest.testmod(verbose = args.debug).failed == 0:
-        #     print(solve(parse_input(), args.debug))
         day = f'{day:0>2}'
         watcher = pywatch.Watcher(f'day{day}.py', 'main', f'day{day}example.txt', f'day{day}.txt')
         watcher.watch()
