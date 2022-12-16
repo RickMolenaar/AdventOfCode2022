@@ -95,11 +95,24 @@ def separate_number(number, partitions, max_partition = None):
 
 def solve(inp, debug=False):
     valves, connections = format_input(inp)
-    return find_best_flow(valves, connections)
+    # return find_best_flow(valves, connections, 30)
+    min_my_valves = (len(valves) - 1) // 2 + 1
+    best = 0
+    for my_valve_amount in range(min_my_valves, min_my_valves + 4):
+        for my_valves in itertools.combinations(valves.keys(), my_valve_amount):
+            my_flow_rates = {valve: valves[valve] for valve in my_valves}
+            elephalves = [valve for valve in valves if valve not in my_valves]
+            elephant_flow_rates = {valve: valves[valve] for valve in elephalves}
+            f1 = find_best_flow(my_flow_rates, connections, 26)
+            f2 = find_best_flow(elephant_flow_rates, connections, 26)
+            if f1 + f2 > best:
+                best = f1 + f2
+                print(my_valves, f1, f2, best)
+                
+    return best
 
-def find_best_flow(valves, connections):
+def find_best_flow(valves, connections, time):
     distances = build_distance_map(valves, connections)
-    print(len(valves))
     # if debug:
     #     for key in distances:
     #         print(key, distances[key])
@@ -112,7 +125,7 @@ def find_best_flow(valves, connections):
     total = 0
     bad_start_length = 0
     for total_deferred_priorities in range(16):
-        print(total_deferred_priorities)
+        # print(total_deferred_priorities)
         for separations in separate_number(total_deferred_priorities, min(10, len(valves)), max_prio + 1):
             # print(separations)
             for priorities in distinct_permutations(separations):
@@ -122,18 +135,16 @@ def find_best_flow(valves, connections):
                         skipped += 1
                         break
                 else:
-                    best_flow, route, bad_start = find_total_flow(valves, distances, list(priorities), 30, cache)
-                    if route == ['AA', 'DD', 'BB', 'JJ', 'HH', 'EE', 'CC']:
-                        print(route, best_flow, priorities)
+                    best_flow, route, bad_start = find_total_flow(valves, distances, list(priorities), time, cache)
                     if best_flow is not None and best_flow > total_best_flow:
                         total_best_flow = best_flow
                         # find_total_flow(valves, distances, list(priorities), 30, True)
-                        print(route, best_flow)
+                        # print(route, best_flow)
                     elif bad_start:
                         bad_starts.add(tuple(bad_start))
                         bad_start_length = max(bad_start_length, len(bad_start))
-    print(f"{skipped} skipped out of {total} ({len(bad_starts)} skippable)")
-    print('-'*10)
+    # print(f"{skipped} skipped out of {total} ({len(bad_starts)} skippable)")
+    # print('-'*10)
     # if debug:
     #     print(route)
 
