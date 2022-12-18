@@ -83,6 +83,21 @@ def find_total_flow(valves, distances, priorities, time_remaining, cache, debug 
         step += 1
     return total_flow, route, None
 
+# def find_total_flow_by_order(valves, distances, order, time_remaining):
+#     loc = 'AA'
+#     total = 0
+#     for valve in order:
+#         time_remaining -= distances[loc][valve] + 1
+#         if time_remaining <= 0:
+#             return total
+#         total += valves[valve] * time_remaining
+#         loc = valve
+#         # print(valve, time_remaining, total)
+#     return total
+
+# def randomize_paths():
+
+
 def separate_number(number, partitions, max_partition = None):
     if max_partition is None:
         max_partition = number
@@ -95,15 +110,30 @@ def separate_number(number, partitions, max_partition = None):
 
 def solve(inp, debug=False):
     valves, connections = format_input(inp)
+    # distances = build_distance_map(valves, connections)
+    # if len(valves) < 10:
+    #     print(find_total_flow_by_order(valves, distances, ['DD', 'BB', 'JJ', 'HH', 'EE', 'CC'], 30))
+    # return None
     # return find_best_flow(valves, connections, 30)
     min_my_valves = (len(valves) - 1) // 2 + 1
     best = 0
+    best_selections = []
+    lowest_best_selection = 0
     for my_valve_amount in range(min_my_valves, min_my_valves + 4):
+        print(f'Using {my_valve_amount} valves myself')
         for my_valves in itertools.combinations(valves.keys(), my_valve_amount):
             my_flow_rates = {valve: valves[valve] for valve in my_valves}
+            f1 = find_best_flow(my_flow_rates, connections, 26)
+            # if f1 > lowest_best_selection:
+            #     best_selections.append((my_valves, f1))
+            #     best_selections = sorted(best_selections)
+            #     if len(best_selections) > 30:
+            #         best_selections.pop()
+            #         lowest_best_selection = best_selections[0][1]
+            if f1 < 1000:
+                continue
             elephalves = [valve for valve in valves if valve not in my_valves]
             elephant_flow_rates = {valve: valves[valve] for valve in elephalves}
-            f1 = find_best_flow(my_flow_rates, connections, 26)
             f2 = find_best_flow(elephant_flow_rates, connections, 26)
             if f1 + f2 > best:
                 best = f1 + f2
@@ -124,7 +154,7 @@ def find_best_flow(valves, connections, time):
     skipped = 0
     total = 0
     bad_start_length = 0
-    for total_deferred_priorities in range(16):
+    for total_deferred_priorities in range(8):
         # print(total_deferred_priorities)
         for separations in separate_number(total_deferred_priorities, min(10, len(valves)), max_prio + 1):
             # print(separations)
