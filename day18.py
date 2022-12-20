@@ -33,7 +33,7 @@ def solve(inp, debug=False):
     blocks_to_check = set()
     blocks_to_check.add((min_x, min_y, min_z))
     checked = set()
-    semi_open_blocks = set()
+    total_sides = 0
     while blocks_to_check:
         # print(blocks_to_check)
         (x, y, z) = blocks_to_check.pop()
@@ -43,21 +43,13 @@ def solve(inp, debug=False):
                 to_check[dir] += d
                 to_check = tuple(to_check)
                 if to_check in rocks:
-                    semi_open_blocks.add((x, y, z))
+                    total_sides += 1
                     continue
                 if to_check in checked:
                     continue
                 if min_x <= to_check[0] <= max_x and min_y <= to_check[1] <= max_y and min_z <= to_check[2] <= max_z:
                     blocks_to_check.add(to_check)
         checked.add((x, y, z))
-    total_sides = 0
-    for block in semi_open_blocks:
-        for d in (-1, 1):
-            for dir in range(3):
-                to_check = list(block)
-                to_check[dir] += d
-                if tuple(to_check) in rocks:
-                    total_sides += 1
     return total_sides
 
 def main(debug = False):
