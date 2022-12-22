@@ -41,6 +41,7 @@ def find_number(evaluated, actions):
     g1, g2 = 1, 2
     MAX_ITERS = 1000
     for iter in range(MAX_ITERS):
+        print(f'Trying {g1}, {g2}')
         evaluated['humn'] = g1
         r1 = get_value('root', evaluated.copy(), actions)
         if r1 == 0:
@@ -75,9 +76,8 @@ def find_number(evaluated, actions):
 
 def solve(inp, debug=False):
     evaluated, actions = format_input(inp)
-    print('Part 1:', get_value('root', evaluated.copy(), actions))
-    
-    evaluated, actions = format_input(inp)
+    print('Part 1:', get_value('root', evaluated, actions))
+
     actions['root'] = ('-', actions['root'][1])
     return find_number(evaluated, actions)
 

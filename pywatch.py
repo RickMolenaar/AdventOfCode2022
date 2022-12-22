@@ -82,6 +82,7 @@ class Watcher:
             if self.verbose:
                 print('Watched method returned: ', end = '')
             print(result)
+        print('-' * 5)
 
 if __name__=='__main__':
     args = parse_arguments()
