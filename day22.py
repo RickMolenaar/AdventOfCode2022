@@ -15,7 +15,6 @@ def format_input(inp: list[str]) -> tuple[list[list[int]], str]:
         if '.' not in line and '#' not in line:
             break
         start_index = min(line.index(c) for c in '.#' if c in line)
-        end_index = len(line) - 1
         row = []
         for i, c in enumerate(line):
             if c == '.':
@@ -79,8 +78,6 @@ def transform(row, col, direction, cube_size, mappings):
         origin = (ghost_face[0], ghost_face[1] + 1)
     elif direction == 3:
         origin = (ghost_face[0] + 1, ghost_face[1])
-    if ghost_face == (3, -2):
-        print(row, col)
     data = mappings[ghost_face]
     if origin == data[0]:
         assert (direction + 2) % 4 == data[1]
@@ -131,7 +128,7 @@ def solve(inp, part, debug=False):
     while jungle_map[row][col] < 0:
         col += 1
     walked = {(row, col): direction}
-    for i, command in enumerate(path):
+    for command in path:
         if 'L' in command or 'R' in command:
             amount = int(command[:-1])
         else:
