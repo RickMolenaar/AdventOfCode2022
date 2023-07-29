@@ -1,6 +1,7 @@
 import argparse
 import datetime
 import importlib
+import os
 import requests
 import time
 
@@ -112,6 +113,8 @@ if __name__=='__main__':
     else:
         day = int(args.day)
     
+    if not args.generate and not os.path.exists(f"day{day:0>2}.py"):
+        raise ValueError(f"Generator parameter was not supplied and file doesn't exist: day{day:0>2}.py")
     if args.generate:
         generate(day)
     elif args.time:
