@@ -7,7 +7,7 @@ import time
 
 from bs4 import BeautifulSoup, Tag
 
-import pywatch
+from AoCHelpers import pywatch
 
 TEMPLATE_FILE = """def parse_input(file = 'day{day:0>2}.txt'):
     with open(file) as f:
